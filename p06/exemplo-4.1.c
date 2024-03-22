@@ -1,43 +1,33 @@
 #include "pauta.h"
 #include <stdlib.h>
 
-void apaga_aluno(aluno_t pauta [], int size_pauta, int numero_aluno) {
-  for(int i = 0; i < size_pauta; i++) {
-    if(pauta[i].num == numero_aluno) {
-      pauta[i].num = ALUNO_INVALIDO;
-      return;
-    }
-  }
-
-  fprintf(stderr, "%s %d %s \n", ">> O aluno com o numero", numero_aluno, "nao foi encontrado");
-}
-
 void adiciona_aluno(aluno_t pauta [], int size_pauta, aluno_t *aluno) {
   for(int i = 0; i < size_pauta; i++) {
-    if(pauta[i].num < 0) {
+    if(pauta[i].num == ALUNO_INVALIDO) {
       pauta[i] = *aluno;
       return;
     }
   }
 
-  fprintf(stderr, ">> Nao existem vagas disponiveis na pauta");
+  fprintf(stderr, ">> Nao existem vagas disponiveis na pauta \n");
 }
 
-aluno_t* novo_aluno(aluno_t *aluno) {
+aluno_t novo_aluno() {
+  aluno_t aluno;
   char buffer[50];
 
   printf("Escreva o nome do aluno: ");
   fgets(buffer, sizeof(buffer), stdin);
   buffer[strlen(buffer) - 1] = '\0';
-  strcpy(aluno->nome, buffer);
+  strcpy(aluno.nome, buffer);
 
   printf("Escreva o numero do aluno: ");
   fgets(buffer, sizeof(buffer), stdin);
-  aluno->num = atoi(buffer);
+  aluno.num = atoi(buffer);
 
   printf("Escreva a nota do aluno: ");
   fgets(buffer, sizeof(buffer), stdin);
-  aluno->nota = atoi(buffer);
+  aluno.nota = atoi(buffer);
   
   return aluno;
 }
@@ -55,24 +45,33 @@ void mostra_pauta(aluno_t pauta [], int size_pauta) {
   printf("# alunos inscritos: %d \n", alunos_inscritos);
 }
 
+void grava_pauta_bin(aluno_t pauta [], int size_pauta) {
+  FILE *file = fopen ("pauta.dat", "a");
+  so_exit_on_null(file, "Não foi possível abrir o ficheiro 'pauta.dat' para escrita.");
+
+  for(int i = 0; i < size_pauta; i++) {
+    if(pauta[i].num != ALUNO_INVALIDO) {
+      fwrite(&pauta[i], sizeof(pauta[i]), 1, file);
+    }
+  }
+
+  fclose(file);
+}
+
 int main() {
-  aluno_t pauta [TAMANHO_TURMA], aluno1, aluno2;
+  aluno_t pauta [TAMANHO_TURMA];
 
   for(int i = 0; i < TAMANHO_TURMA; i++) {
     pauta[i].num = ALUNO_INVALIDO;
   }
 
-  strcpy(aluno1.nome, "Manuel Fernandes");
-  aluno1.num = 23500;
-  aluno1.nota = 19.5;
+  aluno_t aluno = novo_aluno();
+  adiciona_aluno(pauta, TAMANHO_TURMA, &aluno);
 
-  pauta[0] = aluno1;
+  aluno = novo_aluno();
+  adiciona_aluno(pauta, TAMANHO_TURMA, &aluno);
 
   mostra_pauta(pauta, TAMANHO_TURMA);
-  
-  novo_aluno(&aluno2);
-  adiciona_aluno(pauta, TAMANHO_TURMA, &aluno2);
-  mostra_pauta(pauta, TAMANHO_TURMA);
-  apaga_aluno(pauta, TAMANHO_TURMA, 100);
-  mostra_pauta(pauta, TAMANHO_TURMA);
+
+  grava_pauta_bin(pauta, TAMANHO_TURMA);
 }
