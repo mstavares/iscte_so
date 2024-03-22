@@ -4,10 +4,10 @@
 
 #define QUANTIDADE_DE_NUMEROS 10
 
-int procuraMaior(int numeros []) {
+int procuraMaior(int numeros [], int numeros_size) {
   int maior = 0;
 
-  for(int i = 0; i < QUANTIDADE_DE_NUMEROS - 1; i++) {
+  for(int i = 0; i < numeros_size - 1; i++) {
     if(numeros[i] > maior) {
       maior = numeros[i];
     }
@@ -33,6 +33,7 @@ int main() {
     printf("%d ", numeros[i]);
   }
 
-  int maior = procuraMaior(numeros);
+  int maior = procuraMaior(numeros, QUANTIDADE_DE_NUMEROS);
   printf("\nO maior número registado é: %d", maior);
 }
+''
