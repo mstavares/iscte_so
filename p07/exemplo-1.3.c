@@ -17,3 +17,13 @@ int main() {
   }
   
 }
+
+/*
+int main() {
+  printf("Mostrar o conteudo da diretoria :/\n");
+  if(!fork()) {
+    execl("/bin/ls", "ls", "-l", "/", NULL);
+  }
+  printf("Fim do comando: ls -l /\n");
+}
+*/
