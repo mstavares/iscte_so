@@ -7,7 +7,7 @@ int main() {
     \n\t int numero: %d bytes \
     \n\t char nome [99]: %d bytes \
     \n\t float nota: %d bytes;", 
-    sizeof(a), sizeof(a.numero), sizeof(a.nome), sizeof(a.nota)");
+    sizeof(a), sizeof(a.numero), sizeof(a.nome), sizeof(a.nota));
 
   return 0;
 }

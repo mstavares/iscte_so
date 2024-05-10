@@ -5,10 +5,12 @@
 #include <sys/ipc.h>
 #include <sys/sem.h>
 #include <sys/msg.h>
-#include <sys/shm/h>
+#include <sys/shm.h>
 
-#define NR_ALUNOS 5
+#define MSGDATA_MAX_SIZE 8124
 #define IPC_KEY 0x0a123456
+
+#define ENTRADA_VAZIA -1
 
 typedef struct {
   int numero;

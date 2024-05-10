@@ -5,7 +5,6 @@
 #include <sys/ipc.h>
 #include <sys/sem.h>
 #include <sys/msg.h>
-#include <sys/shm.h>
 #include <unistd.h>
 
 #define MSGDATA_MAX_SIZE 8192
